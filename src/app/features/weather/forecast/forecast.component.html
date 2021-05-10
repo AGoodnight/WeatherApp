@@ -1,0 +1,7 @@
+<div class='container'>
+    <section class='section'>
+        <div *ngFor='let day of conditionsList' class='row g-3'>
+            <div class='col-12'>{{day.weather[0].description}}<img [src]='day.icon'/></div>
+        </div>
+    </section>
+</div>

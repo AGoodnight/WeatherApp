@@ -1,0 +1,13 @@
+<div #toasts class='toast-container'>
+  <div class="notification content"
+      *ngFor='let message of messages | async'
+      [@pop]
+      [ngClass]="{'is-info':     message.style=='info',
+                  'is-warning':  message.style=='warning',
+                  'is-danger':   message.style=='danger',
+                  'is-success':  message.style=='success'}">
+      <h3 *ngIf='message.title'>{{message.title}}</h3>
+      <p *ngIf='message.message' class='mesage'>{{message.message}}</p>
+      <p *ngIf='message.author' class='author'>~{{message.author}}</p>
+  </div>
+</div>

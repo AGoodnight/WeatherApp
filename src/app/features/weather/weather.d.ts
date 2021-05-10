@@ -1,0 +1,1 @@
+type TemperatureUnit = 'standard'|'metric'|'imperial';
