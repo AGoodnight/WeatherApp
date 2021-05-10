@@ -39,7 +39,7 @@ export class NotificationService{
       .pipe((take(1)))
       .subscribe((res)=>{
         this.$toastMessages.next([_configuration].concat(this.$toastMessages.getValue()));
-        this.liveAnnouncer.announce('Attention, '+_configuration.title+' '+_configuration.message)
+        // this.liveAnnouncer.announce('Attention, '+_configuration.title+' '+_configuration.message)
 
       // Lve for as long as configuration
         timer(_configuration.ttl*1000).pipe(take(1)).subscribe((res)=>{

@@ -1,7 +1,27 @@
-<div *ngIf='loadingRoute' class='route-loader'>
+<div *ngIf='route_is_loading' class='spinner-curtain route-loader'>
     <div class="spinner">
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
     </div>
 </div>
+<top-nav>
+    <ul class='nav navbar-nav primary-nav me-auto' id='primaryNavigation'>
+        <li class='nav-item'>
+            <a class="nav-link" [routerLink]='navConfig.routes.CURRENT'>
+                Current Weather
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class="nav-link" [routerLink]='navConfig.routes.FORECAST'>
+                5 Day Forecast
+            </a>
+        </li>   
+    </ul>
+    <div class='me-4' id='toolbar'>
+        <button class='btn btn-info btn-icon' (click)='swapMyUnit($event)'>
+            {{appUnitLabel}}
+        </button>
+    </div>
+</top-nav>
 <router-outlet></router-outlet>
+<toasts></toasts>

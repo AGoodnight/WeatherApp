@@ -1,3 +1,3 @@
 export const NAVIGATION_ACTIONS = {
-    ROUTE_IS_LOADING:'ROUTE_IS_LOADING'
+    route_is_loading:'route_is_loading'
 }

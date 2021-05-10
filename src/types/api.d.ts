@@ -15,13 +15,7 @@ interface WeatherResponse{
     dt_txt?:string
     pop?:number,
     rain?:RainConditions
-}    
-
-
-interface WeatherReport extends WeatherResponse{
-    units:TemperatureUnit,
-    icon:any
-}
+}  
 
 
 interface ForecastResponse{
@@ -30,10 +24,6 @@ interface ForecastResponse{
     cnt: number,
     list: WeatherResponse[],
     city: City
-}
-
-interface ForecastReport extends ForecastResponse{
-    list:WeatherReport[]
 }
 
 interface City{

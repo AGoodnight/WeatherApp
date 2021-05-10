@@ -1,12 +1,14 @@
-<div class='container'>
-    <section class='section'>
-        <div class='row'>
-            <div class='col-12'>
-                <button class='btn btn-sm btn-outline-info' (click)='swapMyUnit($event)'>{{conditions.units}}</button>
-                <h1>{{conditions.weather[0].main}}</h1>
-                <h1>{{conditions.weather[0].description}}</h1>
-                <h1>{{conditions.main.temp}}</h1>
-                <img [src]='conditions.icon'/>
+<div class='container-fluid'>
+    <section class='section mt-3'>
+        <div class='row g-3'>
+            <b>{{conditions.name}} current weather</b>
+            <div class='col-12 d-flex'>
+                <div class='solid-border-top p-3'>
+                    <h4 class='pt-3'>{{conditions.day_name}}, {{conditions.month_name}} {{conditions.day}}</h4>
+                    <p>{{conditions.hour}} <span>{{conditions.hour_period}}</span></p>
+                    <h2>{{conditions.main.temp}} {{unitLabel}}</h2>
+                    <p><img [src]='conditions.icon'/> {{conditions.weather[0].description}}</p>
+                </div>
             </div>
         </div>
     </section>

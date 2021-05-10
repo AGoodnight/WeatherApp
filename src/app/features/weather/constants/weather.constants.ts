@@ -10,7 +10,17 @@ export const WEATHER_ACTIONS:ActionsDictionary = {
     TOGGLE_UNIT:'TOGGLE_UNIT'
 }
 
-export const WEATHER_FEATURE_DEFAULTS = {
+export const WEATHER_TEMPRATURE_UNITS:Dictionary = {
+    IMPERIAL:'imperial',
+    METRIC:'metric'
+}
+
+export const WEATHER_TEMPRATURE_SYMBOLS:Dictionary = {
+    imperial:'°F',
+    metric:'°C'
+}
+
+export const WEATHER_FEATURE_DEFAULTS:Dictionary = {
     DEFAULT_FORECAST_RANGE:5,
-    DEFAULT_UNITS:'imperial'
+    DEFAULT_UNITS:WEATHER_TEMPRATURE_UNITS.IMPERIAL
 }

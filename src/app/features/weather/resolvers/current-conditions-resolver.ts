@@ -40,9 +40,9 @@ export class CurrentConditionsResolver implements Resolve<any>{
                     this.weatherService.getCurrentWeatherForLocation(
                         state.loc,
                         {units:state.unit || WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS}
-                    ).pipe(take(1)).subscribe((weather:WeatherResponse)=>{
+                    ).pipe(take(1)).subscribe((weather:WeatherReport)=>{
                         this.weatherService.getWeatherIcon(weather.weather[0].icon).pipe(take(1)).subscribe((icon)=>{
-                            obs.next(Object.assign({},weather,{icon:icon,units:state.unit || 'imperial'}));
+                            obs.next(weather);
                             obs.complete();
                         })
                     });

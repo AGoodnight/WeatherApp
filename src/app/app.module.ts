@@ -10,6 +10,8 @@ import { WeatherModule } from './features/weather/weather.module';
 import { NavigationModule } from './shared/navigation/navigation.module';
 import { reducers, metaReducers } from './localstorage.configuration';
 import { NotificationModule } from './shared/notification';
+import { NAVIGATION_CONFIG } from './shared/navigation/navigation.interface';
+import { WEATHER_PATHS } from './features/weather/constants/weather.constants';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,14 @@ import { NotificationModule } from './shared/notification';
     EffectsModule.forRoot(),
     StoreModule.forRoot(reducers,{metaReducers})
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NAVIGATION_CONFIG,
+      useValue: {
+        routes: WEATHER_PATHS,
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

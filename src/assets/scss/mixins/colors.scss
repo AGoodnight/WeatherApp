@@ -1,0 +1,26 @@
+@mixin alert-colors{
+    @each $i in ('success','info','warning','danger','background-color','primary'){
+        .alert.#{$i},
+        .alert-#{$i}{
+            color:desaturate(darken(map-get($theme-colors,$i),20),40);
+            background-color:lighten(map-get($theme-colors,$i),40);
+        }
+    }
+}
+
+@mixin icon-colors{
+    @each $i in ('success','info','warning','danger','background-color','primary'){
+        .icon.#{$i},
+        .icon-#{$i}{
+            color:map-get($theme-colors,$i);
+        }
+    }
+}
+
+@mixin text-colors{
+    @each $i in map-keys($colors){
+        .text-#{$i}{
+            color:map-get($colors,$i);
+        }
+    }
+}
