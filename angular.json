@@ -67,7 +67,7 @@
               ]
             },
             "es5": {
-              "tsConfig": "./tsconfig-es5.json"
+              "tsConfig": "./tsconfig.es5.json"
             }
           }
         },
