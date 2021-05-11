@@ -6,6 +6,7 @@ The application will give you two pages, one for Current Weather and one for a 5
 
 The application takes advantage of NGRX for state management and also for executing app wide actions/events, acting as a top-level controller that has access to all modules ( features ) included in the app's primary module. NGRX is also used as a module's top-level controller as well, each feature has a store of it's own to control specific actions/events within the feature's scope. The Shared directory has components/modules that are used throughout the application with the intent of them being reusable anywhere within the app scope.
 
+
 ## Development server
 
 Before running the app ensure you are using node 10+ ( 12 preffered ). I encourage you to install Node Version Manager https://github.com/nvm-sh/nvm.
@@ -28,5 +29,49 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
+
+### Naming Conventions
+If your going to expand on this code, below are the naming conventions that are already implemented
+
+NGRX Store Keys should be snake case 
+```typescript
+scroll_y:number;
+```
+NGRX Actions should be pascal case
+```bash
+ScrollAction
+```
+File names should be kebab case followed by a . then the kind of angular class or type it’s contents are.
+```bash
+long-file-name.component.ts
+lots-of-definitions.constants.ts
+```
+Directory names should be kebab case
+```bash
+app/long-module-name/the-module/...
+```
+Class names should be pascal case
+```javascript
+class AClassName{}
+```
+Method names and variable names should be camel case
+```typescript
+public aPublicVariable
+private aPrivateVariable
+```
+
+Getters and Setters should be pascal case
+```javascript
+get SomethingPrivate(){
+  return aPrivateVariable;
+}
+```
+Observables and Subjects should have a suffix of $
+```bash
+$observableValue
+$aBehaviorSubject
+get $AnObservable
+get $ASubject
+```
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

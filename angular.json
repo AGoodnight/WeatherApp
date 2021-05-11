@@ -65,6 +65,9 @@
                   "maximumError": "4kb"
                 }
               ]
+            },
+            "es5": {
+              "tsConfig": "./tsconfig-es5.json"
             }
           }
         },
@@ -76,6 +79,9 @@
           "configurations": {
             "production": {
               "browserTarget": "weatherApp:build:production"
+            },
+            "es5": {
+              "browserTarget":"weatherApp:build:es5"
             }
           }
         },
