@@ -1,6 +1,10 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
+  "exclude":[
+    "**/*.spec.ts",
+    "**/*.e2e-spec.ts"
+  ],
   "compilerOptions": {
       "target": "es5"
   }
