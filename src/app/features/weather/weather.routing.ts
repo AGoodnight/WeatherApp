@@ -5,7 +5,6 @@ import { DayView } from './day-view/day-view.component';
 import { Forecast } from './forecast/forecast.component';
 import { CurrentConditionsResolver } from './resolvers/current-conditions-resolver';
 import { ForecastResolver } from './resolvers/forecast.resolver';
-import { HistoricalConditionsResolver } from './resolvers/historical-conditions-resolver';
 
 export const weatherRoutes: Routes = [
 	{ path:WEATHER_PATHS.CURRENT,component:DayView, 

@@ -1,9 +1,9 @@
 import { createAction, props } from "@ngrx/store";
 import { WEATHER_ACTIONS } from "../constants/weather.constants";
 
-export const SetMyLocation = createAction(
-    WEATHER_ACTIONS.SET_MY_LOCATION,
-    props<GeoCoordinates>()
+export const SetMyZip = createAction(
+    WEATHER_ACTIONS.SET_MY_ZIP,
+    (zip:string) => ({zip})
 );
 
 export const SetMyUnit = createAction(

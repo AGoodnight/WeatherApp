@@ -5,7 +5,7 @@ export const WEATHER_PATHS:RoutesDictionary = {
 }
 
 export const WEATHER_ACTIONS:ActionsDictionary = {
-    SET_MY_LOCATION:'SET_MY_LOCATION',
+    SET_MY_ZIP:'SET_MY_ZIP',
     SET_MY_UNIT:'SET_MY_UNIT',
     TOGGLE_UNIT:'TOGGLE_UNIT'
 }

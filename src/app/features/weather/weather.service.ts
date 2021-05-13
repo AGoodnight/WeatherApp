@@ -35,7 +35,31 @@ export class WeatherService{
                     obs.complete();
                 })
             });
-        })
+        }).pipe(take(1),catchError(err => throwError(err)));
+    }
+
+    public getCurrentWeatherForZip(zip:string,params:Dictionary = { units:WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS }):Observable<any>{
+        return new Observable<WeatherReport>((obs)=>{
+            this.http.get<WeatherResponse>(WEATHER_ENDPOINTS.CURRENT_WEATHER,{
+                params:Object.assign(<HttpParams>{},params,{
+                    zip:String(zip),
+                    appid:String(API_KEY),
+                })
+            }).pipe(take(1),catchError(err => throwError(err))).subscribe((weather)=>{
+                this.getWeatherIcon(weather.weather[0].icon).pipe(take(1)).subscribe((icon)=>{
+
+                    let _units:string = params.units as string || WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS as string;
+
+                    let _interpretedData:WeatherReportExtras = Object.assign({},parseUnixDate(weather.dt,_units),{
+                        icon:icon,
+                        units:_units
+                    });
+
+                    obs.next(Object.assign({},weather,_interpretedData) as WeatherReport);
+                    obs.complete();
+                })
+            });
+        }).pipe(take(1),catchError(err => throwError(err)));
     }
 
     public getHistoricalWeatherForLocation(coordinates:GeoCoordinates,params:Dictionary = { 
@@ -115,7 +139,66 @@ export class WeatherService{
                     obs.complete();
                 });
             });
-        });
+        }).pipe(take(1),catchError(err => throwError(err)));
+    }
+
+    public getZipForecast(zip:string,params:Dictionary = { units:WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS}):Observable<any>{
+        return new Observable((obs)=>{
+            this.http.get<ForecastResponse>(WEATHER_ENDPOINTS.FORECAST,{
+                params:Object.assign(<HttpParams>{},params,{
+                    zip:<string>zip,
+                    appid:String(API_KEY),
+                })
+            }).pipe(take(1),catchError(err => throwError(err))).subscribe((forecast)=>{
+                let forecastClone:ForecastResponse = Object.assign({},forecast) as ForecastResponse;
+                let forecastReport:ForecastReport = {} as ForecastReport;
+                forecastReport = Object.assign({},forecast) as ForecastReport;
+                forecastReport.report = [] as WeatherReportDay[];
+                forecastReport.units = params.units as string || WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS as string;
+
+                let iconsForConditions = forecastClone.list.map((weather:WeatherResponse,index:number)=>{
+                    return this.getWeatherIcon(weather.weather[0].icon).pipe(take(1))
+                });
+
+                combineLatest(iconsForConditions).subscribe((response:any)=>{
+
+                    forecastClone.list.map((f:WeatherResponse,index:number)=>{
+
+                        let _units:string = forecastReport.units;
+                        let _dateObject:ParsedDateObject = parseUnixDate(f.dt,_units);
+
+                        let _interpretedData:WeatherReportExtras = Object.assign({},
+                            _dateObject,{
+                            icon:response[index],
+                            units:_units
+                        });
+
+                        // Use a long number ( day and month ) as index to maintain order and account for monthly day resets.
+                        let _uniqueDayId = _interpretedData.weekday_as_unique_index;
+
+                        if(!forecastReport.report[_uniqueDayId]){
+                            forecastReport.report[_uniqueDayId] = {} as WeatherReportDay;
+                        }
+                        if(!forecastReport.report[_uniqueDayId].weather){
+                            forecastReport.report[_uniqueDayId].weather = [];
+                        }
+                        forecastReport.report[_uniqueDayId].weather.push(
+                            Object.assign({},f,_interpretedData) as WeatherReport
+                        );
+                        forecastReport.report[_uniqueDayId] = Object.assign({},
+                            forecastReport.report[_uniqueDayId],
+                            _dateObject
+                        );
+                    })
+
+                    // Flatten the array, removing unused indexes
+                    forecastReport.report = _.compact(forecastReport.report);
+
+                    obs.next(forecastReport);
+                    obs.complete();
+                });
+            });
+        }).pipe(take(1),catchError(err => throwError(err)));
     }
 
     public getWeatherIcon(iconName:string):Observable<any>{

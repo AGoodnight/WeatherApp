@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@angular/core";
-import { ActivatedRoute, ActivatedRouteSnapshot, Resolve } from "@angular/router";
-import { combineLatest, merge, forkJoin, Observable, zip } from "rxjs";
+import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import { Observable, zip } from "rxjs";
 import { take, map } from "rxjs/operators";
 import { select, Store } from '@ngrx/store';
 import { WeatherService } from "../weather.service";
-import { myCurrentWeatherLocationSelector, myUnitSelector } from "../store/weather.selectors";
+import { myCurrentWeatherSettingsSelector } from "../store/weather.selectors";
 import { WEATHER_FEATURE_DEFAULTS } from "../constants/weather.constants";
 
 @Injectable()
@@ -15,15 +15,11 @@ export class ForecastResolver implements Resolve<any>{
     ){}
     
     resolve(route:ActivatedRouteSnapshot){
+        console.log('forecast resolver');
         return new Observable<ForecastReport>((obs)=>{
-            zip(
-                this.ngrxstore.pipe(select(myCurrentWeatherLocationSelector)),
-                this.ngrxstore.pipe(select(myUnitSelector))
-            ).pipe(take(1),map(([loc,unit])=>({
-                loc:<GeoCoordinates>loc,unit:<TemperatureUnit>unit
-            }))).subscribe((state)=>{
+            this.ngrxstore.pipe(select(myCurrentWeatherSettingsSelector)).subscribe((state)=>{
                 // First check for a saved location in thier local storage
-                if(!state.loc){
+                if(!state.zip){
                     navigator.geolocation.getCurrentPosition((location)=>{ 
                         this.weatherService.getLocationForecast(
                             <GeoCoordinates>{
@@ -36,9 +32,11 @@ export class ForecastResolver implements Resolve<any>{
                             obs.complete();
                         })
                     });
+                    // obs.next({} as ForecastReport);
+                    // obs.complete();
                 }else{
-                    this.weatherService.getLocationForecast(
-                        state.loc,
+                    this.weatherService.getZipForecast(
+                        state.zip,
                         {units:state.unit || WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS, limit:WEATHER_FEATURE_DEFAULTS.DEFAULT_FORECAST_RANGE}
                     ).pipe(take(1)).subscribe((forecast:ForecastReport)=>{
                         obs.next(forecast);

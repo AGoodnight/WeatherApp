@@ -17,6 +17,13 @@
             </a>
         </li>   
     </ul>
+    <div class='mx-4' id='zipCodeInput'>
+        <label>
+            <small>Your Zip Code</small>
+            <input [(ngModel)]='zipCodeValue' type='text' class='form-control form-control-sm'/>
+        </label>
+        <button (click)='saveMyZip($event)' class='btn btn-info'>Save</button>
+    </div>
     <div class='me-4' id='toolbar'>
         <button class='btn btn-info btn-icon' (click)='swapMyUnit($event)'>
             {{appUnitLabel}}

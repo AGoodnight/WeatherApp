@@ -1,10 +1,9 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { SetMyLocation, SetMyUnit, ToggleMyUnit } from './weather.actions';
+import { SetMyZip, SetMyUnit, ToggleMyUnit } from './weather.actions';
 
 
 export interface WeatherState{
-    my_location_lat:number|null,
-    my_location_lon:number|null,
+    my_location_zip:string|null,
     my_unit:TemperatureUnit
 }
 
@@ -13,24 +12,21 @@ if(localStorage.getItem('weather')){
     _currentLocalState = JSON.parse( localStorage.getItem('weather') as any );
 }else{
     _currentLocalState = {
-        my_location_lat:null,
-        my_location_lon:null,
+        my_location_zip:null,
         my_unit:'imperial'
     }
 }
 
 export const initialState:WeatherState = {
-    my_location_lat:(_currentLocalState.my_location_lat) ? _currentLocalState.my_location_lat : null,
-    my_location_lon:(_currentLocalState.my_location_lon) ? _currentLocalState.my_location_lon : null,
+    my_location_zip:(_currentLocalState.my_location_zip) ? _currentLocalState.my_location_zip : null,
     my_unit:(_currentLocalState.my_unit) ? _currentLocalState.my_unit : 'imperial',
 }
 
 export const WeatherReducer = createReducer(initialState,
-    on(SetMyLocation,
-        (state,coords)=>({
+    on(SetMyZip,
+        (state,payload)=>({
             ...state,
-            my_location_lat:coords.lat,
-            my_location_lon:coords.lon
+            my_location_zip:payload.zip
         })
     ),
     on(SetMyUnit,

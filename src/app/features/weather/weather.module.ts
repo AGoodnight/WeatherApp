@@ -6,7 +6,6 @@ import { DayView } from './day-view/day-view.component';
 import { WeatherRoutingModule } from './weather.routing';
 import { CurrentConditionsResolver } from './resolvers/current-conditions-resolver';
 import { WeatherService } from './weather.service';
-import { HistoricalConditionsResolver } from './resolvers/historical-conditions-resolver';
 import { ForecastResolver } from './resolvers/forecast.resolver';
 import { Forecast } from './forecast/forecast.component';
 
@@ -22,7 +21,6 @@ import { Forecast } from './forecast/forecast.component';
     ],
     providers:[
         CurrentConditionsResolver,
-        HistoricalConditionsResolver,
         ForecastResolver,
         WeatherService
     ],

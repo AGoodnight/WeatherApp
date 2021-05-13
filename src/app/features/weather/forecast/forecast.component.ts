@@ -8,7 +8,7 @@ import { RouteIsLoading } from 'src/app/shared/navigation/store/navigation.actio
 import { navigationStateSelector } from 'src/app/shared/navigation/store/navigation.selectors';
 import { WEATHER_FEATURE_DEFAULTS, WEATHER_TEMPRATURE_SYMBOLS } from '../constants/weather.constants';
 import { ToggleMyUnit } from '../store/weather.actions';
-import { myUnitSelector } from '../store/weather.selectors';
+import { myCurrentWeatherSettingsSelector } from '../store/weather.selectors';
 import { WeatherService } from '../weather.service';
 
 @Component({
@@ -31,26 +31,41 @@ export class Forecast extends KillZombies(){
         super();
         this.conditions = this.activatedRoute.snapshot.data.forecastReport;
         this.conditionsReport = this.conditions.report;
-        console.log(this.conditionsReport)
+        console.log('forecast loaded',this.conditionsReport)
 
 
         let navigationSub = this.ngrxstore.select(navigationStateSelector).subscribe((state)=>{
             this.dataIsLoading = state.route_is_loading;
         })
         
-        let unitSub = this.ngrxstore.select(myUnitSelector).pipe(skip(1)).subscribe((unit)=>{
+        let unitSub = this.ngrxstore.select(myCurrentWeatherSettingsSelector).pipe(skip(1)).subscribe((state)=>{
+            console.log('forecast')
             this.ngrxstore.dispatch(RouteIsLoading(true));
-            this.weatherService.getLocationForecast(
-                this.conditions.city.coord,
-                {units:unit}
-            ).subscribe((updatedConditions:ForecastReport)=>{
-                this.conditions = Object.assign({},updatedConditions);
-                this.conditions.units = unit;
-                this.conditionsReport = updatedConditions.report;
-                this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[unit as string] as string;
-                this.ngrxstore.dispatch(RouteIsLoading(false));
-            })
-        })
+            if(state.zip){
+                this.weatherService.getZipForecast(
+                    state.zip,
+                    {units:state.unit}
+                ).subscribe((updatedConditions:ForecastReport)=>{
+                    this.conditions = Object.assign({},updatedConditions);
+                    this.conditions.units = state.unit;
+                    this.conditionsReport = updatedConditions.report;
+                    this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[state.unit as string] as string;
+                    this.ngrxstore.dispatch(RouteIsLoading(false));
+                })
+            }else{
+                this.weatherService.getLocationForecast(
+                    this.conditions.city.coord,
+                    {units:state.unit}
+                ).subscribe((updatedConditions:ForecastReport)=>{
+                    this.conditions = Object.assign({},updatedConditions);
+                    this.conditions.units = state.unit;
+                    this.conditionsReport = updatedConditions.report;
+                    this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[state.unit as string] as string;
+                    this.ngrxstore.dispatch(RouteIsLoading(false));
+                })
+            }
+            
+        });
 
         this.storeZombieByKey('unit',unitSub);
         this.storeZombieByKey('navigation',navigationSub);

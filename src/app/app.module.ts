@@ -12,6 +12,7 @@ import { reducers, metaReducers } from './localstorage.configuration';
 import { NotificationModule } from './shared/notification';
 import { NAVIGATION_CONFIG } from './shared/navigation/navigation.interface';
 import { WEATHER_PATHS } from './features/weather/constants/weather.constants';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { WEATHER_PATHS } from './features/weather/constants/weather.constants';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule,
     WeatherModule,
     NavigationModule.forRoot(),

@@ -5,11 +5,11 @@ import { WeatherService } from '../weather.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ToggleMyUnit } from '../store/weather.actions';
-import { myUnitSelector } from '../store/weather.selectors';
 import { DismissToasts, TriggerToast } from 'src/app/shared/notification';
-import { WEATHER_FEATURE_DEFAULTS, WEATHER_TEMPRATURE_SYMBOLS, WEATHER_TEMPRATURE_UNITS } from '../constants/weather.constants';
+import { WEATHER_FEATURE_DEFAULTS, WEATHER_TEMPRATURE_SYMBOLS } from '../constants/weather.constants';
 import { KillZombies } from 'src/app/shared/kill-zombies/kill-zombies';
 import { RouteIsLoading } from 'src/app/shared/navigation/store/navigation.actions';
+import { myCurrentWeatherSettingsSelector } from '../store/weather.selectors';
 
 @Component({
     selector:'day-view',
@@ -29,33 +29,50 @@ export class DayView extends KillZombies(){
         super();
         this.conditions = this.activatedRoute.snapshot.data.currentConditions;
         this.conditions.icon = this.sanitizer.bypassSecurityTrustUrl(this.conditions.icon);
-
-        console.log(this.conditions)
+        console.log('dayview loaded');
 
         // get any Initial Unit preference
-        this.ngrxstore.select(myUnitSelector).pipe(take(1)).subscribe((unit)=>{ 
-            if(unit){
-                this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[unit as string] as string;
+        this.ngrxstore.select(myCurrentWeatherSettingsSelector).pipe(take(1)).subscribe((state)=>{ 
+            if(state.unit){
+                this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[state.unit as string] as string;
             } 
         });
 
         // load data on subsequent Unit changes.
-        let unitSub = this.ngrxstore.select(myUnitSelector).pipe(skip(1)).subscribe((unit)=>{
+        let unitSub = this.ngrxstore.select(myCurrentWeatherSettingsSelector).pipe(skip(1)).subscribe((state)=>{
+            console.log('dayview')
             this.ngrxstore.dispatch(RouteIsLoading(true));
-            this.weatherService.getCurrentWeatherForLocation(
-                this.conditions.coord,
-                {units:unit}
-            ).subscribe((updatedConditions:WeatherReport)=>{
-                this.conditions = Object.assign({},updatedConditions);
-                this.conditions.units = unit;
-                this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[unit as string] as string;
-                this.ngrxstore.dispatch(RouteIsLoading(false));
-                this.ngrxstore.dispatch(TriggerToast({
-                    message:"Changes Saved",
-                    style:"success",
-                    ttl:3
-                }))
-            })
+            if(state.zip){
+                this.weatherService.getCurrentWeatherForZip(
+                    state.zip,
+                    {units:state.unit}
+                ).subscribe((updatedConditions:WeatherReport)=>{
+                    this.conditions = Object.assign({},updatedConditions);
+                    this.conditions.units = state.unit;
+                    this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[state.unit as string] as string;
+                    this.ngrxstore.dispatch(RouteIsLoading(false));
+                    this.ngrxstore.dispatch(TriggerToast({
+                        message:"Changes Saved",
+                        style:"success",
+                        ttl:3
+                    }))
+                })
+            }else{
+                this.weatherService.getCurrentWeatherForLocation(
+                    this.conditions.coord,
+                    {units:state.unit}
+                ).subscribe((updatedConditions:WeatherReport)=>{
+                    this.conditions = Object.assign({},updatedConditions);
+                    this.conditions.units = state.unit;
+                    this.unitLabel = WEATHER_TEMPRATURE_SYMBOLS[state.unit as string] as string;
+                    this.ngrxstore.dispatch(RouteIsLoading(false));
+                    this.ngrxstore.dispatch(TriggerToast({
+                        message:"Changes Saved",
+                        style:"success",
+                        ttl:3
+                    }))
+                })
+            }
         })
 
         this.storeZombieByKey('unit',unitSub);

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@angular/core";
-import { ActivatedRoute, ActivatedRouteSnapshot, Resolve } from "@angular/router";
-import { Observable, zip } from "rxjs";
-import { take, map } from "rxjs/operators";
+import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
 import { select, Store } from '@ngrx/store';
 import { WeatherService } from "../weather.service";
-import { myCurrentWeatherLocationSelector, myUnitSelector } from "../store/weather.selectors";
+import { myCurrentWeatherSettingsSelector } from "../store/weather.selectors";
 import { WEATHER_FEATURE_DEFAULTS } from "../constants/weather.constants";
 
 @Injectable()
@@ -14,16 +14,12 @@ export class CurrentConditionsResolver implements Resolve<any>{
         @Inject(Store) public ngrxstore:Store<any>
     ){}
     
-    resolve(route:ActivatedRouteSnapshot){
+    resolve(_route:ActivatedRouteSnapshot){
+        console.log('condition resolv');
         return new Observable<WeatherReport>((obs)=>{
-            zip(
-                this.ngrxstore.pipe(select(myCurrentWeatherLocationSelector)),
-                this.ngrxstore.pipe(select(myUnitSelector))
-            ).pipe(take(1),map(([loc,unit])=>({
-                loc:<GeoCoordinates>loc,unit:<TemperatureUnit>unit
-            }))).subscribe((state)=>{
-                // First check for a saved location in thier local storage
-                if(!state.loc){
+            this.ngrxstore.pipe(select(myCurrentWeatherSettingsSelector)).subscribe((state)=>{
+            // First check for a saved location in thier local storage
+                if(!state.zip){
                     navigator.geolocation.getCurrentPosition((location)=>{ 
                         this.weatherService.getCurrentWeatherForLocation(
                             <GeoCoordinates>{
@@ -36,9 +32,11 @@ export class CurrentConditionsResolver implements Resolve<any>{
                             obs.complete();
                         })
                     });
+                    // obs.next({} as WeatherReport);
+                    // obs.complete();
                 }else{
-                    this.weatherService.getCurrentWeatherForLocation(
-                        state.loc,
+                    this.weatherService.getCurrentWeatherForZip(
+                        state.zip,
                         {units:state.unit || WEATHER_FEATURE_DEFAULTS.DEFAULT_UNITS}
                     ).pipe(take(1)).subscribe((weather:WeatherReport)=>{
                         this.weatherService.getWeatherIcon(weather.weather[0].icon).pipe(take(1)).subscribe((icon)=>{
@@ -47,7 +45,7 @@ export class CurrentConditionsResolver implements Resolve<any>{
                         })
                     });
                 }
-            });
+            })
         });
     }
 }
