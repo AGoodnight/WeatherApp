@@ -1,26 +1,26 @@
-<div class='container-fluid'>
-    <section class='section mt-3'>
-        <div class='row g-3'>
-            <b>{{conditions.city.name}} 5 day forecast</b>
-            <div *ngFor='let day of conditionsReport' class='col-12'>
-                <div class='solid-border-top p-3'>
-                    <h4>{{day.day_name}}, {{day.month_name}} {{day.day}}</h4>
-                    <div class='d-flex'>
-                        <div *ngFor='let period of day.weather' class='p-2 dashed-border-left'>
-                            <img [src]="period.icon"/>
-                            <p>{{period.hour}} {{period.hour_period}}</p>
-                            <p>{{period.weather[0].description}}</p>
-                            <p>{{period.main.temp}} {{unitLabel}}</p>
-                            <div class='d-flex'>
-                                <small>{{period.main.temp_min}}</small>
-                                <small class='px-2'>:</small>
-                                <small>{{period.main.temp_max}}</small>
-                            </div>
-                            <small>Feels Like: {{period.main.feels_like}}</small>
-                        </div>
-                    </div>
-                </div>
+<div>
+  <section>
+    <div>
+      <b>{{ conditions.city.name }} 5 day forecast</b>
+      <div *ngFor="let day of conditionsReport">
+        <div>
+          <h4>{{ day.day_name }}, {{ day.month_name }} {{ day.day }}</h4>
+          <div class="uk-grid-small" uk-grid uk-height-match>
+            <div *ngFor="let period of day.weather">
+              <img [src]="period.icon" />
+              <p>{{ period.hour }} {{ period.hour_period }}</p>
+              <p>{{ period.weather[0].description }}</p>
+              <p>{{ period.main.temp }} {{ unitLabel }}</p>
+              <div>
+                <small>{{ period.main.temp_min }}</small>
+                <small>:</small>
+                <small>{{ period.main.temp_max }}</small>
+              </div>
+              <small>Feels Like: {{ period.main.feels_like }}</small>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </div>

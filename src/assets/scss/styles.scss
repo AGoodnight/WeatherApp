@@ -1,12 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 @import "theme";
-@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+// 2. Import default variables and available mixins.
+@import "uikit/src/scss/variables.scss";
+@import "uikit/src/scss/mixins.scss";
+
+// 4. Import UIkit
+@import "uikit/src/scss/uikit.scss";
+
 @import "~perfect-scrollbar/css/perfect-scrollbar";
 
-@import './mixins/border.scss';
-@import './mixins/colors.scss';
+@import "./mixins/border.scss";
+@import "./mixins/colors.scss";
 
-@import './partials/notifications.scss';
-@import './partials/layout.scss';
+@import "./partials/notifications.scss";
+@import "./partials/layout.scss";
 @import "./partials/loader.scss";
 @import "./partials/utility.scss";

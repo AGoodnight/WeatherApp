@@ -1,152 +1,145 @@
-@mixin dashed-borders{
-    @each $p in ('top','bottom','left','right'){
-        .dashed-border-#{$p}{
-            border-#{$p}:dashed 1px map-get($grays,'600');
+@mixin dashed-borders {
+  @each $p in ("top", "bottom", "left", "right") {
+    .dashed-border-#{$p} {
+      border-#{$p}: dashed 1px map-get($grays, "600");
 
-            &.light,
-            &-light{
-                border-color:map-get($grays,'400');
-            }
+      &.light,
+      &-light {
+        border-color: map-get($grays, "400");
+      }
 
-            &.dark,
-            &-dark{
-                border-color:map-get($grays,'700');
-            }
-            
-            &.nav-item{
-                border-color:$white;
-            }
+      &.dark,
+      &-dark {
+        border-color: map-get($grays, "700");
+      }
 
-            @each $s in map-keys($colors){
-                &.#{$s},
-                &-#{$s}{
-                    border-#{$p}:dashed 1px map-get($colors,$s);
-                }
-            }
+      &.nav-item {
+        border-color: $white;
+      }
 
+      @each $s in map-keys($colors) {
+        &.#{$s},
+        &-#{$s} {
+          border-#{$p}: dashed 1px map-get($colors, $s);
         }
-        
-        @each $breakpoint in map-keys($grid-breakpoints) {
-            @include media-breakpoint-up($breakpoint) {
-                $infix: breakpoint-infix($breakpoint, $grid-breakpoints); 
-                .dashed-border-#{$p}#{$infix} { border-#{$p}: dashed 1px map-get($grays,'600') !important; }
-            }
-        }
-        
-        .dashed-border-#{$p}{
-            @each $s in map-keys($colors){
-                &.#{$s},
-                &-#{$s}{
-                    border-style:dashed;
-                    border-width:2px !important;
-                    border-color:map-get($colors,$s);
-                }
-            }
-        }
-
+      }
     }
 
-    .dashed-border{
-        border:dashed 1px map-get($grays,'600');
+    // @each $breakpoint in map-keys($grid-breakpoints) {
+    //     @include media-breakpoint-up($breakpoint) {
+    //         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    //         .dashed-border-#{$p}#{$infix} { border-#{$p}: dashed 1px map-get($grays,'600') !important; }
+    //     }
+    // }
 
-        &.light,
-        &-light{
-            border-color:map-get($grays,'400');
+    .dashed-border-#{$p} {
+      @each $s in map-keys($colors) {
+        &.#{$s},
+        &-#{$s} {
+          border-style: dashed;
+          border-width: 2px !important;
+          border-color: map-get($colors, $s);
         }
+      }
+    }
+  }
 
-        &.dark,
-        &-dark{
-            border-color:map-get($grays,'700');
-        }
+  .dashed-border {
+    border: dashed 1px map-get($grays, "600");
 
-        &.nav-item{
-            border-color:$white;
-        }
+    &.light,
+    &-light {
+      border-color: map-get($grays, "400");
     }
 
-    .dashed-border{
-        @each $s in map-keys($colors){
-            &.#{$s},
-            &-#{$s}{
-                border-style:dashed;
-                border-width:2px !important;
-                border-color:map-get($colors,$s);
-            }
-        }
+    &.dark,
+    &-dark {
+      border-color: map-get($grays, "700");
     }
+
+    &.nav-item {
+      border-color: $white;
+    }
+  }
+
+  .dashed-border {
+    @each $s in map-keys($colors) {
+      &.#{$s},
+      &-#{$s} {
+        border-style: dashed;
+        border-width: 2px !important;
+        border-color: map-get($colors, $s);
+      }
+    }
+  }
 }
 
-@mixin solid-borders{
-    @each $p in ('top','bottom','left','right'){
-        .solid-border-#{$p}{
-            border-#{$p}:solid 1px map-get($grays,'600');
+@mixin solid-borders {
+  @each $p in ("top", "bottom", "left", "right") {
+    .solid-border-#{$p} {
+      border-#{$p}: solid 1px map-get($grays, "600");
 
-            &.light,
-            &-light{
-                border-color:map-get($grays,'400');
-            }
+      &.light,
+      &-light {
+        border-color: map-get($grays, "400");
+      }
 
-            &.dark,
-            &-dark{
-                border-color:map-get($grays,'700');
-            }
+      &.dark,
+      &-dark {
+        border-color: map-get($grays, "700");
+      }
 
-
-            @each $s in map-keys($colors){
-                &.#{$s},
-                &-#{$s}{
-                    border-#{$p}:solid 3px map-get($colors,$s);
-                }
-            }
-
-            &.nav-item{
-                border-color:$white;
-            }
+      @each $s in map-keys($colors) {
+        &.#{$s},
+        &-#{$s} {
+          border-#{$p}: solid 3px map-get($colors, $s);
         }
+      }
 
-            
-        
+      &.nav-item {
+        border-color: $white;
+      }
     }
-    
+  }
 
-    .solid-border{
-        border:solid 1px map-get($grays,'600');
+  .solid-border {
+    border: solid 1px map-get($grays, "600");
 
-        &.light,
-        &-light{
-            border-color:map-get($grays,'400');
-        }
-
-        &.dark,
-        &-dark{
-            border-color:map-get($grays,'700');
-        }
-
-        &.nav-item{
-            border-color:$white;
-        }
+    &.light,
+    &-light {
+      border-color: map-get($grays, "400");
     }
 
-    .solid-border{
-        @each $s in map-keys($colors){
-            &.#{$s},
-            &-#{$s}{
-                border-style:solid;
-                border-width:2px !important;
-                border-color:map-get($colors,$s);
-            }
-        }
+    &.dark,
+    &-dark {
+      border-color: map-get($grays, "700");
     }
+
+    &.nav-item {
+      border-color: $white;
+    }
+  }
+
+  .solid-border {
+    @each $s in map-keys($colors) {
+      &.#{$s},
+      &-#{$s} {
+        border-style: solid;
+        border-width: 2px !important;
+        border-color: map-get($colors, $s);
+      }
+    }
+  }
 }
 
-@mixin no-borders{
-    @each $p in ('top','bottom','left','right'){
-        .no-border-#{$p}{
-            border-#{$p}:none;
-        }
+@mixin no-borders {
+  @each $p in ("top", "bottom", "left", "right") {
+    .no-border-#{$p} {
+      border-#{$p}: none;
     }
+  }
 
-    .no-border{
-        border:none;
-    }
+  .no-border {
+    border: none;
+  }
 }

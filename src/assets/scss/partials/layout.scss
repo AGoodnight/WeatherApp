@@ -1,10 +1,9 @@
-.navbar-weather-app{
+.navbar-weather-app {
+  @extend .uk-navbar-container;
 
-    @extend .navbar-dark;
+  border-bottom: solid 1px map-get($colors, "orange");
 
-    border-bottom:solid 1px map-get($colors,'orange');
-
-    .brand-image{
-        max-width: 100px;
-    }
+  .brand-image {
+    max-width: 100px;
+  }
 }
