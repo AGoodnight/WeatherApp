@@ -1,15 +1,19 @@
-<div class='container-fluid'>
-    <section class='section mt-3'>
-        <div class='row g-3'>
-            <b>{{conditions.name}} current weather</b>
-            <div class='col-12 d-flex'>
-                <div class='solid-border-top p-3'>
-                    <h4 class='pt-3'>{{conditions.day_name}}, {{conditions.month_name}} {{conditions.day}}</h4>
-                    <p>{{conditions.hour}} <span>{{conditions.hour_period}}</span></p>
-                    <h2>{{conditions.main.temp}} {{unitLabel}}</h2>
-                    <p><img [src]='conditions.icon'/> {{conditions.weather[0].description}}</p>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
+<section class="section mt-3">
+  <b>{{ conditions.name }} current weather</b>
+  <div uk-grid class="uk-grid-small">
+    <div>
+      <h4>
+        {{ conditions.day_name }}, {{ conditions.month_name }}
+        {{ conditions.day }}
+      </h4>
+      <p>
+        {{ conditions.hour }} <span>{{ conditions.hour_period }}</span>
+      </p>
+      <h2>{{ conditions.main.temp }} {{ unitLabel }}</h2>
+      <p>
+        <img [src]="conditions.icon" />
+        {{ conditions.weather[0].description }}
+      </p>
+    </div>
+  </div>
+</section>

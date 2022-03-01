@@ -4,35 +4,33 @@
     <div class="double-bounce2"></div>
   </div>
 </div>
-<top-nav>
-  <ul class="nav navbar-nav primary-nav me-auto" id="primaryNavigation">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="navConfig.routes.CURRENT">
-        Current Weather
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="navConfig.routes.FORECAST">
-        5 Day Forecast
-      </a>
-    </li>
-  </ul>
-  <div class="mx-4" id="zipCodeInput">
-    <label>
-      <small>Your Zip Code</small>
-      <input
-        [(ngModel)]="zipCodeValue"
-        type="text"
-        class="form-control form-control-sm"
-      />
-    </label>
-    <button (click)="saveMyZip($event)" class="btn btn-info">Save</button>
-  </div>
-  <div class="me-4" id="toolbar">
-    <button class="btn btn-info btn-icon" (click)="swapMyUnit($event)">
-      {{ appUnitLabel }}
-    </button>
-  </div>
-</top-nav>
-<router-outlet></router-outlet>
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+  <top-nav>
+    <ul class="uk-navbar-nav" id="primaryNavigation">
+      <li>
+        <a [routerLink]="navConfig.routes.CURRENT"> Current Weather </a>
+      </li>
+      <li>
+        <a [routerLink]="navConfig.routes.FORECAST"> 5 Day Forecast </a>
+      </li>
+    </ul>
+    <div class="uk-navbar-item" id="zipCodeInput">
+      <label class="uk-margin">
+        <small class="uk-form-label">Your Zip Code</small>
+        <div class="uk-form-controls">
+          <input [(ngModel)]="zipCodeValue" type="text" class="uk-input" />
+        </div>
+      </label>
+      <button (click)="saveMyZip($event)" class="btn btn-info">Save</button>
+    </div>
+    <div class="uk-navbar-item" id="toolbar">
+      <button class="btn btn-info btn-icon" (click)="swapMyUnit($event)">
+        {{ appUnitLabel }}
+      </button>
+    </div>
+  </top-nav>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>
 <toasts></toasts>

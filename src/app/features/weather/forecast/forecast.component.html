@@ -1,26 +1,20 @@
-<div>
-  <section>
-    <div>
-      <b>{{ conditions.city.name }} 5 day forecast</b>
-      <div *ngFor="let day of conditionsReport">
+<section>
+  <b>{{ conditions.city.name }} 5 day forecast</b>
+  <div *ngFor="let day of conditionsReport">
+    <h4>{{ day.day_name }}, {{ day.month_name }} {{ day.day }}</h4>
+    <div class="uk-grid-small" uk-grid uk-height-match>
+      <div *ngFor="let period of day.weather">
+        <img [src]="period.icon" />
+        <p>{{ period.hour }} {{ period.hour_period }}</p>
+        <p>{{ period.weather[0].description }}</p>
+        <p>{{ period.main.temp }} {{ unitLabel }}</p>
         <div>
-          <h4>{{ day.day_name }}, {{ day.month_name }} {{ day.day }}</h4>
-          <div class="uk-grid-small" uk-grid uk-height-match>
-            <div *ngFor="let period of day.weather">
-              <img [src]="period.icon" />
-              <p>{{ period.hour }} {{ period.hour_period }}</p>
-              <p>{{ period.weather[0].description }}</p>
-              <p>{{ period.main.temp }} {{ unitLabel }}</p>
-              <div>
-                <small>{{ period.main.temp_min }}</small>
-                <small>:</small>
-                <small>{{ period.main.temp_max }}</small>
-              </div>
-              <small>Feels Like: {{ period.main.feels_like }}</small>
-            </div>
-          </div>
+          <small>{{ period.main.temp_min }}</small>
+          <small>:</small>
+          <small>{{ period.main.temp_max }}</small>
         </div>
+        <small>Feels Like: {{ period.main.feels_like }}</small>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
