@@ -15,9 +15,7 @@ import { WEATHER_PATHS } from './features/weather/constants/weather.constants';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,16 +25,16 @@ import { FormsModule } from '@angular/forms';
     NavigationModule.forRoot(),
     NotificationModule.forRoot(),
     EffectsModule.forRoot(),
-    StoreModule.forRoot(reducers,{metaReducers})
+    StoreModule.forRoot(reducers, { metaReducers }),
   ],
   providers: [
     {
       provide: NAVIGATION_CONFIG,
       useValue: {
         routes: WEATHER_PATHS,
-      }
-    }
+      },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
