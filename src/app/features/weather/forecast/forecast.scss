@@ -1,0 +1,82 @@
+@import "../../../../assets/scss/styles.scss";
+
+.header {
+  margin-top: 0.5rem;
+  color: $gray-500;
+  font-size: 2em;
+  font-weight: 200;
+}
+.day-card {
+  @extend .uk-card, .uk-box-shadow-large, .solid-border-top;
+}
+.day-card-body {
+  @extend .uk-card-body;
+  background: $gray-900;
+}
+.day {
+  font-size: 1.4em;
+  color: $gray-200;
+  @extend .dashed-border-bottom;
+}
+.hour-forecast {
+  &.current-conditions {
+    width: 100%;
+  }
+}
+.hour-forecast-body {
+  @extend .uk-box-shadow-medium;
+  background: $dark;
+  color: $gray-900;
+  .header {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    font-size: 0.9em;
+    background-color: black;
+    width: 100%;
+    .time {
+      font-weight: 600;
+      padding-left: 0.4rem;
+    }
+  }
+  .body {
+    padding: 1rem;
+    .description {
+      padding: 1rem;
+      flex: 2;
+      .temp {
+        font-size: 2em;
+      }
+      .condition {
+        font-weight: 600;
+        font-size: 1em;
+        text-transform: capitalize;
+        margin: 0em;
+      }
+    }
+    .details {
+      padding: 0rem 1rem 1rem 1rem;
+    }
+  }
+}
+
+.current-conditions {
+  padding: 0em;
+  .hour-forecast-body {
+    padding: 0em;
+    .header {
+      height: 3.4rem;
+      font-size: 1.3em;
+    }
+    .body {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      .temp {
+        font-weight: 200;
+        font-size: 4em;
+      }
+    }
+  }
+}

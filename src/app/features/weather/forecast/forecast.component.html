@@ -1,19 +1,48 @@
-<section>
-  <b>{{ conditions.city.name }} 5 day forecast</b>
-  <div *ngFor="let day of conditionsReport">
-    <h4>{{ day.day_name }}, {{ day.month_name }} {{ day.day }}</h4>
-    <div class="uk-grid-small" uk-grid uk-height-match>
-      <div *ngFor="let period of day.weather">
-        <img [src]="period.icon" />
-        <p>{{ period.hour }} {{ period.hour_period }}</p>
-        <p>{{ period.weather[0].description }}</p>
-        <p>{{ period.main.temp }} {{ unitLabel }}</p>
-        <div>
-          <small>{{ period.main.temp_min }}</small>
-          <small>:</small>
-          <small>{{ period.main.temp_max }}</small>
-        </div>
-        <small>Feels Like: {{ period.main.feels_like }}</small>
+<section class="uk-container">
+  <h1 class="header">{{ conditions.city.name }} 5 day forecast</h1>
+  <div class="'day-card" *ngFor="let day of conditionsReport">
+    <div class="day-card-body">
+      <span class="day"
+        >{{ day.day_name }}, {{ day.month_name }} {{ day.day }}</span
+      >
+      <div uk-grid>
+        <ng-container *ngFor="let period of day.weather; index as i">
+          <div
+            class="hour-forecast uk-width-1-2@s uk-width-1-3@m uk-width-1-4@l uk-width-1-5@xl"
+            [ngClass]="{ 'current-conditions': i === 0 }"
+          >
+            <div
+              class="hour-forecast-body"
+              [backgroundTemperature]="period.main.temp"
+              [unit]="unitLabel"
+            >
+              <div class="header">
+                <span class="time"
+                  >{{ period.hour }} {{ period.hour_period }}</span
+                >
+              </div>
+              <div class="body">
+                <div class="description">
+                  <div class="temp">{{ period.main.temp }} {{ unitLabel }}</div>
+                  <img class="icon" [src]="period.icon" />
+                  <span class="condition">{{
+                    period.weather[0].description
+                  }}</span>
+                </div>
+                <div class="details">
+                  <div class="min-max">
+                    <small>{{ period.main.temp_min }}</small>
+                    <small>:</small>
+                    <small>{{ period.main.temp_max }}</small>
+                  </div>
+                  <small class="feels-like"
+                    >Feels Like: {{ period.main.feels_like }}</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

@@ -8,24 +8,12 @@ import { CurrentConditionsResolver } from './resolvers/current-conditions-resolv
 import { WeatherService } from './weather.service';
 import { ForecastResolver } from './resolvers/forecast.resolver';
 import { Forecast } from './forecast/forecast.component';
+import { BackgroundTemperature } from 'src/app/shared/utility/background-temperature.directive';
 
 @NgModule({
-    declarations:[
-        DayView,
-        Forecast
-    ],
-    imports:[
-        CommonModule,
-        BrowserModule,
-        WeatherRoutingModule
-    ],
-    providers:[
-        CurrentConditionsResolver,
-        ForecastResolver,
-        WeatherService
-    ],
-    exports:[
-        RouterModule
-    ]
+  declarations: [DayView, Forecast, BackgroundTemperature],
+  imports: [CommonModule, BrowserModule, WeatherRoutingModule],
+  providers: [CurrentConditionsResolver, ForecastResolver, WeatherService],
+  exports: [RouterModule],
 })
-export class WeatherModule { }
+export class WeatherModule {}
